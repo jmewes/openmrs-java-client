@@ -1,6 +1,6 @@
 package com.experimental.openmrs;
 
-public class OpenMRSPerson {
+public class Person {
 
     private String uuid;
     private String birthdate;

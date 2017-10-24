@@ -13,13 +13,13 @@ public class OpenMRSTest {
     public void should_find_patients() {
 
         // GIVEN
-        String uri = "http://139.59.130.211:8081/openmrs-standalone";
-        String user = "admin";
-        String password = "test";
+        String uri = "https://ksch/openmrs";
+        String user = "superman";
+        String password = "Admin123";
 
         // WHEN
         OpenMRS openMRS = new OpenMRS(uri, user, password);
-        List<OpenMRSPatient> patients = openMRS.findPatients("John");
+        List<Patient> patients = openMRS.findPatients("Jan");
 
         // THEN
         assertTrue(patients.size() > 0);

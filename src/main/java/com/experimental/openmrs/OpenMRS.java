@@ -30,7 +30,7 @@ public class OpenMRS {
         this.password = password;
     }
 
-    public List<OpenMRSPatient> findPatients(String nameOrId) {
+    public List<Patient> findPatients(String nameOrId) {
         try {
             HttpResponse<JsonNode> response = Unirest
                     .get(buildUri(PATIENT_SEARCH_TEMPLATE, this.uri, nameOrId))
@@ -42,10 +42,10 @@ public class OpenMRS {
         }
     }
 
-    private static List<OpenMRSPatient> parsePatientListResponse(HttpResponse<JsonNode> response) {
+    private static List<Patient> parsePatientListResponse(HttpResponse<JsonNode> response) {
         try {
             String responseBody = response.getBody().getObject().get("results").toString();
-            OpenMRSPatient[] patients = OBJECT_MAPPER.readValue(responseBody, OpenMRSPatient[].class);
+            Patient[] patients = OBJECT_MAPPER.readValue(responseBody, Patient[].class);
             return new ArrayList<>(Arrays.asList(patients));
         } catch (IOException e) {
             throw new RuntimeException("Could not parse response with patient list.", e);

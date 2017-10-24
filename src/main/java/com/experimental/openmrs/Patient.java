@@ -1,10 +1,10 @@
 package com.experimental.openmrs;
 
-public class OpenMRSPatient {
+public class Patient {
 
     private String uuid;
     private String display;
-    private OpenMRSPerson person;
+    private Person person;
 
     public String getUuid() {
         return uuid;
@@ -22,11 +22,11 @@ public class OpenMRSPatient {
         this.display = display;
     }
 
-    public OpenMRSPerson getPerson() {
+    public Person getPerson() {
         return person;
     }
 
-    public void setPerson(OpenMRSPerson person) {
+    public void setPerson(Person person) {
         this.person = person;
     }
 }
