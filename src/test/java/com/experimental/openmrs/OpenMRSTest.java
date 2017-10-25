@@ -19,7 +19,7 @@ public class OpenMRSTest {
 
         // WHEN
         OpenMRS openMRS = new OpenMRS(uri, user, password);
-        List<Patient> patients = openMRS.findPatients("Jan");
+        List<Patient> patients = openMRS.patient().findByNameOrId("John");
 
         // THEN
         assertTrue(patients.size() > 0);

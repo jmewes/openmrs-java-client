@@ -1,6 +1,8 @@
 package com.experimental.openmrs;
 
 
+import com.experimental.openmrs.resources.PatientProfil;
+import com.experimental.openmrs.resources.PatientRes;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
@@ -9,50 +11,57 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class OpenMRS {
 
-    private static final String PATIENT_SEARCH_TEMPLATE = "%s/ws/rest/v1/patient?identifier=%s";
-
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
+    public static final ObjectMapper objectMapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    private String uri;
+    private String baseUrl;
     private String user;
     private String password;
 
-    public OpenMRS(String uri, String user, String password) {
-        this.uri = uri;
+    public OpenMRS(String baseUrl, String user, String password) {
+        this.baseUrl = baseUrl + "/ws/rest"; // TODO maybe there is a better location for this common path
         this.user = user;
         this.password = password;
     }
 
-    public List<Patient> findPatients(String nameOrId) {
+    public PatientRes patient() {
+        return new PatientRes(this);
+    }
+
+    public PatientProfil patientProfile() {
+        return new PatientProfil(this);
+    }
+
+    public HttpResponse<JsonNode> get(String resource, String... parameters) {
         try {
             HttpResponse<JsonNode> response = Unirest
-                    .get(buildUri(PATIENT_SEARCH_TEMPLATE, this.uri, nameOrId))
+                    .get(buildUri(resource, parameters))
                     .basicAuth(this.user, this.password)
                     .asJson();
-            return parsePatientListResponse(response);
+            return response;
         } catch (UnirestException e) {
-            throw new RuntimeException("Error on attempt to request patient search results", e);
+            throw new RuntimeException("Error on attempt to get request on " + buildUri(resource, parameters), e);
         }
     }
 
-    private static List<Patient> parsePatientListResponse(HttpResponse<JsonNode> response) {
+    public HttpResponse post(String resource, String requestBody) {
         try {
-            String responseBody = response.getBody().getObject().get("results").toString();
-            Patient[] patients = OBJECT_MAPPER.readValue(responseBody, Patient[].class);
-            return new ArrayList<>(Arrays.asList(patients));
-        } catch (IOException e) {
-            throw new RuntimeException("Could not parse response with patient list.", e);
+            HttpResponse response = Unirest
+                    .post(buildUri(resource))
+                    .header("Content-Type", "application/json")
+                    .basicAuth(this.user, this.password)
+                    .body(new JsonNode(requestBody))
+                    .asString();
+            return response;
+        } catch (UnirestException e) {
+            throw new RuntimeException("Error on attempt to do POST request on " + buildUri(resource), e);
         }
     }
 
-    private static String buildUri(String template, Object... params) {
-        return String.format(template, params);
+    private String buildUri(String resource, Object... parameters) {
+        return String.format(baseUrl + resource, parameters);
     }
 }
