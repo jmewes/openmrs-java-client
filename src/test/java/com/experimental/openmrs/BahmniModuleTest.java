@@ -51,12 +51,10 @@ public class BahmniModuleTest {
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
         Random oracle = new Random();
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < numberOfCharacters; i++) {
+        sb.append("E");
+        for (int i = 0; i < numberOfCharacters - 1; i++) {
             int randIndex = oracle.nextInt(alphabet.length());
             char randomChar = alphabet.charAt(randIndex);
-            if (i == 0) {
-                randomChar = Character.toUpperCase(randomChar);
-            }
             sb.append(randomChar);
         }
         return sb.toString();
