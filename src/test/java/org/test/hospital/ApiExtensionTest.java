@@ -1,5 +1,6 @@
 package org.test.hospital;
 
+import org.junit.Before;
 import org.test.hospital.impl.bahmnicore.CustomizedOpenMRSImpl;
 import com.experimental.openmrs.Patient;
 import org.junit.Test;
@@ -12,17 +13,28 @@ import static org.junit.Assert.assertTrue;
 
 public class ApiExtensionTest {
 
+    private CustomizedOpenMRSImpl openMRS;
+
+    @Before
+    public void setup() {
+        String openmrsBaseUrl = System.getenv("OPENMRS_BASE_URL");
+        String openmrsUserName = System.getenv("OPENMRS_USER_NAME");
+        String openmrsUserPassword = System.getenv("OPENMRS_USER_PASSWORD");
+
+        openMRS = new CustomizedOpenMRSImpl(
+                checkNotNull(openmrsBaseUrl),
+                checkNotNull(openmrsUserName),
+                checkNotNull(openmrsUserPassword));
+    }
+
     @Test
     public void should_still_support_standard_api() {
 
         // GIVEN
-        String uri = "https://ksch/openmrs";
-        String user = "superman";
-        String password = "Admin123";
+        // - Patient with name "Joe Doe" has been created manually (FIXME)
 
         // WHEN
-        CustomizedOpenMRSImpl customizedOpenMRSImpl = new CustomizedOpenMRSImpl(uri, user, password);
-        List<Patient> patients = customizedOpenMRSImpl.patient().findByNameOrId("John");
+        List<Patient> patients = openMRS.patient().findByNameOrId("Joe");
 
         // THEN
         assertTrue(patients.size() > 0);
@@ -32,15 +44,11 @@ public class ApiExtensionTest {
     public void should_create_patient_via_bahmni_module() {
 
         // GIVEN
-        String uri = "https://ksch/openmrs";
-        String user = "superman";
-        String password = "Admin123";
         String patientFirstName = randomAlienName(5);
         String patientLastName = randomAlienName(11);
 
         // WHEN
-        CustomizedOpenMRSImpl customizedOpenMRSImpl = new CustomizedOpenMRSImpl(uri, user, password);
-        Patient createdPatient = customizedOpenMRSImpl.patientProfile().createPatient(patientFirstName, patientLastName);
+        Patient createdPatient = openMRS.patientProfile().createPatient(patientFirstName, patientLastName);
 
         // THEN
         assertEquals(String.format("%s %s", patientFirstName, patientLastName),
@@ -58,5 +66,12 @@ public class ApiExtensionTest {
             sb.append(randomChar);
         }
         return sb.toString();
+    }
+
+    private String checkNotNull(String s) {
+        if (s == null) {
+            throw new NullPointerException();
+        }
+        return s;
     }
 }
