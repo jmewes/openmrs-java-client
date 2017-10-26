@@ -47,14 +47,14 @@ public class OpenMRS {
         }
     }
 
-    public HttpResponse post(String resource, String requestBody) {
+    public HttpResponse<JsonNode> post(String resource, String requestBody) {
         try {
             HttpResponse response = Unirest
                     .post(buildUri(resource))
                     .header("Content-Type", "application/json")
                     .basicAuth(this.user, this.password)
                     .body(new JsonNode(requestBody))
-                    .asString();
+                    .asJson();
             return response;
         } catch (UnirestException e) {
             throw new RuntimeException("Error on attempt to do POST request on " + buildUri(resource), e);

@@ -1,8 +1,10 @@
 package com.experimental.openmrs.bahmnicore;
 
 import com.experimental.openmrs.OpenMRSBahmniImpl;
+import com.experimental.openmrs.Patient;
 import com.experimental.openmrs.resources.PatientProfil;
 import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
 
 public class BahmniPatientProfile extends PatientProfil {
 
@@ -10,17 +12,19 @@ public class BahmniPatientProfile extends PatientProfil {
         super(openMRSBahmniImpl);
     }
 
-    public HttpResponse createPatient() {
+    public Patient createPatient(String firstName, String lastName) {
+
+        String displayName = String.format("%s %s", firstName, lastName);
 
         //language=JSON
-        String json = "{\n" +
+        String json = String.format("{\n" +
                 "  \"patient\":{\n" +
                 "    \"person\":{\n" +
                 "      \"names\":[\n" +
                 "        {\n" +
-                "          \"givenName\":\"XYZ\",\n" +
-                "          \"familyName\":\"B\",\n" +
-                "          \"display\":\"A B\",\n" +
+                "          \"givenName\":\"%s\",\n" +
+                "          \"familyName\":\"%s\",\n" +
+                "          \"display\":\"%s\",\n" +
                 "          \"preferred\":false\n" +
                 "        }\n" +
                 "      ],\n" +
@@ -166,10 +170,13 @@ public class BahmniPatientProfile extends PatientProfil {
                 "  \"relationships\":[\n" +
                 "\n" +
                 "  ]\n" +
-                "}";
+                "}", firstName, lastName, displayName);
 
-        HttpResponse response = openMRS.post("/v1/bahmnicore/patientprofile", json);
+        HttpResponse<JsonNode> response = openMRS.post("/v1/bahmnicore/patientprofile", json);
+        if (response.getStatus() != 200) {
+            throw new RuntimeException("Could not create patient. " + response.getBody().toString());
+        }
 
-        return response;
+        return parsePatient(response);
     }
 }

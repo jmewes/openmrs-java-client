@@ -5,6 +5,7 @@ public class Person {
     private String uuid;
     private String birthdate;
     private String gender;
+    private Name preferredName;
 
     public String getUuid() {
         return uuid;
@@ -28,5 +29,13 @@ public class Person {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public Name getPreferredName() {
+        return preferredName;
+    }
+
+    public void setPreferredName(Name preferredName) {
+        this.preferredName = preferredName;
     }
 }
