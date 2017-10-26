@@ -1,16 +1,14 @@
 package com.experimental.openmrs;
 
 
-import com.experimental.openmrs.resources.PatientProfil;
-import com.experimental.openmrs.resources.PatientRes;
+import com.experimental.openmrs.resources.PatientProfilResource;
+import com.experimental.openmrs.resources.PatientResource;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-
-import java.io.IOException;
 
 public class OpenMRS {
 
@@ -27,12 +25,12 @@ public class OpenMRS {
         this.password = password;
     }
 
-    public PatientRes patient() {
-        return new PatientRes(this);
+    public PatientResource patient() {
+        return new PatientResource(this);
     }
 
-    public PatientProfil patientProfile() {
-        return new PatientProfil(this);
+    public PatientProfilResource patientProfile() {
+        return new PatientProfilResource(this);
     }
 
     public HttpResponse<JsonNode> get(String resource, String... parameters) {

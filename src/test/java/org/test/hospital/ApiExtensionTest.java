@@ -1,7 +1,7 @@
-package com.experimental.openmrs;
+package org.test.hospital;
 
-import com.mashape.unirest.http.HttpResponse;
-import org.junit.Assert;
+import org.test.hospital.impl.bahmnicore.CustomizedOpenMRSImpl;
+import com.experimental.openmrs.Patient;
 import org.junit.Test;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.Random;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class BahmniModuleTest {
+public class ApiExtensionTest {
 
     @Test
     public void should_still_support_standard_api() {
@@ -21,8 +21,8 @@ public class BahmniModuleTest {
         String password = "Admin123";
 
         // WHEN
-        OpenMRSBahmniImpl openMRSBahmniImpl = new OpenMRSBahmniImpl(uri, user, password);
-        List<Patient> patients = openMRSBahmniImpl.patient().findByNameOrId("John");
+        CustomizedOpenMRSImpl customizedOpenMRSImpl = new CustomizedOpenMRSImpl(uri, user, password);
+        List<Patient> patients = customizedOpenMRSImpl.patient().findByNameOrId("John");
 
         // THEN
         assertTrue(patients.size() > 0);
@@ -39,8 +39,8 @@ public class BahmniModuleTest {
         String patientLastName = randomAlienName(11);
 
         // WHEN
-        OpenMRSBahmniImpl openMRSBahmniImpl = new OpenMRSBahmniImpl(uri, user, password);
-        Patient createdPatient = openMRSBahmniImpl.patientProfile().createPatient(patientFirstName, patientLastName);
+        CustomizedOpenMRSImpl customizedOpenMRSImpl = new CustomizedOpenMRSImpl(uri, user, password);
+        Patient createdPatient = customizedOpenMRSImpl.patientProfile().createPatient(patientFirstName, patientLastName);
 
         // THEN
         assertEquals(String.format("%s %s", patientFirstName, patientLastName),

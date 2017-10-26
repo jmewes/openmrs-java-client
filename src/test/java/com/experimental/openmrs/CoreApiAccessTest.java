@@ -6,8 +6,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-
-public class OpenMRSTest {
+public class CoreApiAccessTest {
 
     @Test
     public void should_find_patients() {

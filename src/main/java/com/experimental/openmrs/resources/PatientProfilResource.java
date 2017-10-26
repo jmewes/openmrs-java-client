@@ -2,9 +2,9 @@ package com.experimental.openmrs.resources;
 
 import com.experimental.openmrs.OpenMRS;
 
-public class PatientProfil extends RestResource {
+public class PatientProfilResource extends RestResource {
 
-    public PatientProfil(OpenMRS openMRS) {
+    public PatientProfilResource(OpenMRS openMRS) {
         super(openMRS);
     }
 }

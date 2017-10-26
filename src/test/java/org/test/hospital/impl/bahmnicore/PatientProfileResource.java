@@ -1,15 +1,14 @@
-package com.experimental.openmrs.bahmnicore;
+package org.test.hospital.impl.bahmnicore;
 
-import com.experimental.openmrs.OpenMRSBahmniImpl;
+import com.experimental.openmrs.resources.PatientProfilResource;
 import com.experimental.openmrs.Patient;
-import com.experimental.openmrs.resources.PatientProfil;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 
-public class BahmniPatientProfile extends PatientProfil {
+public class PatientProfileResource extends PatientProfilResource {
 
-    public BahmniPatientProfile(OpenMRSBahmniImpl openMRSBahmniImpl) {
-        super(openMRSBahmniImpl);
+    public PatientProfileResource(CustomizedOpenMRSImpl customizedOpenMRSImpl) {
+        super(customizedOpenMRSImpl);
     }
 
     public Patient createPatient(String firstName, String lastName) {

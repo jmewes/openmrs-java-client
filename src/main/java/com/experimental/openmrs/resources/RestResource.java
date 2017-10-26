@@ -26,7 +26,7 @@ public class RestResource {
     protected List<Patient> parsePatientListResponse(HttpResponse<JsonNode> response) {
         try {
             String resultsArray = response.getBody().getObject().get("results").toString();
-            com.experimental.openmrs.Patient[] patients = OpenMRS.objectMapper.readValue(resultsArray, com.experimental.openmrs.Patient[].class);
+            Patient[] patients = OpenMRS.objectMapper.readValue(resultsArray, Patient[].class);
             return new ArrayList<>(Arrays.asList(patients));
         } catch (IOException e) {
             throw new RuntimeException("Could not parse response with patient list.", e);
@@ -36,7 +36,7 @@ public class RestResource {
     protected Patient parsePatient(HttpResponse<JsonNode> response) {
         try {
             String patientJsonText = response.getBody().getObject().get("patient").toString();
-            return OpenMRS.objectMapper.readValue(patientJsonText, com.experimental.openmrs.Patient.class);
+            return OpenMRS.objectMapper.readValue(patientJsonText, Patient.class);
         } catch (IOException e) {
             throw new RuntimeException("Could not parse response patient list.", e);
         }
