@@ -7,13 +7,15 @@ import com.mashape.unirest.http.JsonNode;
 
 public class PatientProfileResource extends PatientProfilResource {
 
-    public PatientProfileResource(CustomizedOpenMRSImpl customizedOpenMRSImpl) {
-        super(customizedOpenMRSImpl);
+    private static final String BAHMNICORE_PATIENTPROFILE_RESOURCE_PATH = "/v1/bahmnicore/patientprofile";
+
+    public PatientProfileResource(BahmniImpl bahmniImpl) {
+        super(bahmniImpl);
     }
 
     public Patient createPatient(String firstName, String lastName) {
         String payload = getPatientCreationPayload(firstName,lastName);
-        HttpResponse<JsonNode> response = openMRS.post("/v1/bahmnicore/patientprofile", payload);
+        HttpResponse<JsonNode> response = openMRS.post(BAHMNICORE_PATIENTPROFILE_RESOURCE_PATH, payload);
         if (response.getStatus() != 200) {
             throw new RuntimeException("Could not create patient. " + response.getBody().toString());
         }

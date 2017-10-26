@@ -1,6 +1,5 @@
 package com.experimental.openmrs;
 
-
 import com.experimental.openmrs.resources.PatientProfilResource;
 import com.experimental.openmrs.resources.PatientResource;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -15,12 +14,12 @@ public class OpenMRS {
     public static final ObjectMapper objectMapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    private String baseUrl;
+    private String restBaseUrl;
     private String user;
     private String password;
 
-    public OpenMRS(String baseUrl, String user, String password) {
-        this.baseUrl = baseUrl + "/ws/rest"; // TODO maybe there is a better location for this common path
+    public OpenMRS(String openMRSUrl, String user, String password) {
+        this.restBaseUrl = openMRSUrl + "/ws/rest";
         this.user = user;
         this.password = password;
     }
@@ -41,7 +40,7 @@ public class OpenMRS {
                     .asJson();
             return response;
         } catch (UnirestException e) {
-            throw new RuntimeException("Error on attempt to get request on " + buildUri(resource, parameters), e);
+            throw new RuntimeException("Error on attempt to do GET request on " + buildUri(resource, parameters), e);
         }
     }
 
@@ -60,6 +59,6 @@ public class OpenMRS {
     }
 
     private String buildUri(String resource, Object... parameters) {
-        return String.format(baseUrl + resource, parameters);
+        return String.format(restBaseUrl + resource, parameters);
     }
 }

@@ -1,7 +1,7 @@
 package org.test.hospital;
 
 import org.junit.Before;
-import org.test.hospital.impl.bahmnicore.CustomizedOpenMRSImpl;
+import org.test.hospital.impl.bahmnicore.BahmniImpl;
 import com.experimental.openmrs.Patient;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ApiExtensionTest {
 
-    private CustomizedOpenMRSImpl openMRS;
+    private BahmniImpl bahmniImpl;
 
     @Before
     public void setup() {
@@ -21,7 +21,7 @@ public class ApiExtensionTest {
         String openmrsUserName = System.getenv("OPENMRS_USER_NAME");
         String openmrsUserPassword = System.getenv("OPENMRS_USER_PASSWORD");
 
-        openMRS = new CustomizedOpenMRSImpl(
+        bahmniImpl = new BahmniImpl(
                 checkNotNull(openmrsBaseUrl),
                 checkNotNull(openmrsUserName),
                 checkNotNull(openmrsUserPassword));
@@ -34,7 +34,7 @@ public class ApiExtensionTest {
         // - Patient with name "Joe Doe" has been created manually (FIXME)
 
         // WHEN
-        List<Patient> patients = openMRS.patient().findByNameOrId("Joe");
+        List<Patient> patients = bahmniImpl.patient().findByNameOrId("Joe");
 
         // THEN
         assertTrue(patients.size() > 0);
@@ -48,7 +48,7 @@ public class ApiExtensionTest {
         String patientLastName = randomAlienName(11);
 
         // WHEN
-        Patient createdPatient = openMRS.patientProfile().createPatient(patientFirstName, patientLastName);
+        Patient createdPatient = bahmniImpl.patientProfile().createPatient(patientFirstName, patientLastName);
 
         // THEN
         assertEquals(String.format("%s %s", patientFirstName, patientLastName),

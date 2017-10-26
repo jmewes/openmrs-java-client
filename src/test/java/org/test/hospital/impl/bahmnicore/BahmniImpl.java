@@ -2,9 +2,9 @@ package org.test.hospital.impl.bahmnicore;
 
 import com.experimental.openmrs.OpenMRS;
 
-public class CustomizedOpenMRSImpl extends OpenMRS {
+public class BahmniImpl extends OpenMRS {
 
-    public CustomizedOpenMRSImpl(String baseUrl, String user, String password) {
+    public BahmniImpl(String baseUrl, String user, String password) {
         super(baseUrl, user, password);
     }
 

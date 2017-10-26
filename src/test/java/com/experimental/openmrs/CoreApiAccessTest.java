@@ -2,7 +2,6 @@ package com.experimental.openmrs;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.test.hospital.impl.bahmnicore.CustomizedOpenMRSImpl;
 
 import java.util.List;
 
