@@ -6,6 +6,14 @@ public class Patient {
     private String display;
     private Person person;
 
+    public Patient() {
+
+    }
+
+    public Patient(String display) {
+        this.display = display;
+    }
+
     public String getUuid() {
         return uuid;
     }
@@ -28,5 +36,14 @@ public class Patient {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    @Override
+    public String toString() {
+        if (display != null) {
+            return display;
+        } else {
+            return super.toString();
+        }
     }
 }

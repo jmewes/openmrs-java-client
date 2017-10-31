@@ -1,0 +1,22 @@
+[
+  {
+    "uuid": "c35bfe02-ce9c-442c-a1f0-12107e4228e2",
+    "display": "GAN203007 - John Doe",
+    "links": [
+      {
+        "rel": "self",
+        "uri": "http://hostname/openmrs/ws/rest/v1/patient/c35bfe02-ce9c-442c-a1f0-12107e4228e2"
+      }
+    ]
+  },
+  {
+    "uuid": "e94b0fdb-e95f-4456-86e9-90cfce6b1cc3",
+    "display": "GAN203008 - Jane Doe",
+    "links": [
+      {
+        "rel": "self",
+        "uri": "http://hostname/openmrs/ws/rest/v1/patient/e94b0fdb-e95f-4456-86e9-90cfce6b1cc3"
+      }
+    ]
+  }
+]
